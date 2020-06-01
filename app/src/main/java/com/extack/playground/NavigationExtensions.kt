@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.extack.kotlinapp
+package com.extack.playground
 
 import android.content.Intent
 import android.util.SparseArray

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.extack.kotlinapp
+package com.extack.playground
 
 import android.os.Bundle
 import android.util.Log
@@ -23,8 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.time.LocalDate
 
 /**
  * An activity that inflates a layout that has a [BottomNavigationView].
@@ -39,10 +39,10 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState
-        Log.v("ACTIVITY_TAG","ON_CREATE_ACTIVITY")
+        Log.v("ACTIVITY_TAG", "ON_CREATE_ACTIVITY at " + LocalDate.now())
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         setupBottomNavigationBar()
     }
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         // Whenever the selected controller changes, setup the action bar.
         controller.observe(this, Observer { navController ->
-            setupActionBarWithNavController(navController)
+            //setupActionBarWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 if (destination.id == R.id.home_fragment || destination.id == R.id.dashboard_fragment || destination.id == R.id.notifications_fragment){
                     bottomNavigationView.visibility = View.VISIBLE

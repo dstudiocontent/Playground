@@ -1,4 +1,4 @@
-package com.extack.kotlinapp.viewmodel
+package com.extack.playground.viewmodel
 
 import androidx.lifecycle.ViewModel
 
