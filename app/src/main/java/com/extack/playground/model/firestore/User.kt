@@ -1,4 +1,4 @@
-package com.extack.playground.model.remote
+package com.extack.playground.model.firestore
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

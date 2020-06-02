@@ -2,18 +2,21 @@ package com.extack.playground.ui.auth
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.extack.playground.databinding.FragmentSignInBinding
-import com.extack.playground.repo.firebase.StatusCode
-import com.extack.playground.ui.BaseFragment
+import com.extack.playground.repo.helper.StatusCode
+import com.extack.playground.ui.main.BaseFragment
 import com.extack.playground.utils.hideKeyboardFrom
 import com.extack.playground.utils.showSnackbar
 
-class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>(
-    FragmentSignInBinding::inflate,
-    SignInViewModel::class.java
+class SignInFragment : BaseFragment<FragmentSignInBinding>(
+    FragmentSignInBinding::inflate
 ) {
+
+    private val viewModel: SignInViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fsiSignIn.setButtonOnClickListener(View.OnClickListener {

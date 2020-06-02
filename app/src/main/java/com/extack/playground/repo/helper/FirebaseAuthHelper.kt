@@ -1,4 +1,4 @@
-package com.extack.playground.repo.firebase
+package com.extack.playground.repo.helper
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -13,7 +13,10 @@ class FirebaseAuthHelper {
             auth.createUserWithEmailAndPassword(email, password).await().user
             UserStatus(StatusCode.SUCCESS)
         } catch (e: Exception) {
-            UserStatus(StatusCode.FAILED, e.message ?: "Something went wrong")
+            UserStatus(
+                StatusCode.FAILED,
+                e.message ?: "Something went wrong"
+            )
         }
     }
 
@@ -22,7 +25,10 @@ class FirebaseAuthHelper {
             auth.signInWithEmailAndPassword(email, password).await().user
             UserStatus(StatusCode.SUCCESS)
         } catch (e: Exception) {
-            UserStatus(StatusCode.FAILED, e.message ?: "Something went wrong")
+            UserStatus(
+                StatusCode.FAILED,
+                e.message ?: "Something went wrong"
+            )
         }
     }
 

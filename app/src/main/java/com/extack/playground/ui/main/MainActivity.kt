@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package com.extack.playground
+package com.extack.playground.ui.main
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import com.extack.playground.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalDate
 
@@ -32,6 +38,7 @@ import java.time.LocalDate
 class MainActivity : AppCompatActivity() {
 
     private var currentNavController: LiveData<NavController>? = null
+    private lateinit var activityVM: ActivityVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState
         Log.v("ACTIVITY_TAG", "ON_CREATE_ACTIVITY at " + LocalDate.now())
+        activityVM = ViewModelProvider(this)[ActivityVM::class.java]
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -53,14 +61,18 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNavigationBar() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
 
-        val navGraphIds = listOf(R.navigation.home, R.navigation.notifications, R.navigation.dashboard)
+        val navGraphIds = listOf(
+            R.navigation.home,
+            R.navigation.notifications,
+            R.navigation.dashboard
+        )
 
         // Setup the bottom navigation view with a notifications of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(
-                navGraphIds = navGraphIds,
-                fragmentManager = supportFragmentManager,
-                containerId = R.id.nav_host_container,
-                intent = intent
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.nav_host_container,
+            intent = intent
         )
 
         // Whenever the selected controller changes, setup the action bar.
@@ -69,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 if (destination.id == R.id.home_fragment || destination.id == R.id.dashboard_fragment || destination.id == R.id.notifications_fragment){
                     bottomNavigationView.visibility = View.VISIBLE
-                }else bottomNavigationView.visibility = View.GONE
+                } else bottomNavigationView.visibility = View.GONE
             }
         })
         currentNavController = controller
@@ -78,5 +90,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    inner class NetworkState() {
+        init {
+            val connectivityManager =
+                applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val builder = NetworkRequest.Builder()
+
+            connectivityManager.registerDefaultNetworkCallback(object :
+                ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    activityVM.setNetworkAvailable()
+                }
+
+                override fun onLost(network: Network) {
+                    super.onLost(network)
+                    activityVM.setNetworkLost()
+                }
+            })
+        }
     }
 }

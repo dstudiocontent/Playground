@@ -1,8 +1,9 @@
 package com.extack.playground.repo.firebase
 
 import com.extack.playground.model.Resource
-import com.extack.playground.model.remote.User
-import com.extack.playground.model.remote.Vehicle
+import com.extack.playground.model.firestore.User
+import com.extack.playground.model.firestore.Vehicle
+import com.extack.playground.repo.helper.FirebaseHelper
 
 class UsersRepo(private val firebaseHelper: FirebaseHelper) {
     suspend fun getAllUsers(): Resource<User> {

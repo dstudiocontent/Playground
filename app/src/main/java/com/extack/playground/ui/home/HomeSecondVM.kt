@@ -1,4 +1,4 @@
-package com.extack.playground.viewmodel
+package com.extack.playground.ui.home
 
 import androidx.lifecycle.ViewModel
 

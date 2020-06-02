@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.snackbar.Snackbar
 
+
 fun showSnackbar(anchorView: View, message: String) {
     Snackbar.make(anchorView, message, Snackbar.LENGTH_SHORT).show()
 }

@@ -1,7 +1,7 @@
-package com.extack.playground.repo.firebase
+package com.extack.playground.repo.helper
 
 import com.extack.playground.model.Resource
-import com.extack.playground.model.remote.FirestoreModel
+import com.extack.playground.model.firestore.FirestoreModel
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.extack.playground.databinding.FragmentHomeBinding
 import com.extack.playground.databinding.RvItemUserCardBinding
 import com.extack.playground.model.Resource
-import com.extack.playground.model.remote.User
-import com.extack.playground.ui.BaseFragment
+import com.extack.playground.model.firestore.User
+import com.extack.playground.ui.main.BaseFragment
 import com.extack.playground.utils.showSnackbar
-import com.extack.playground.viewmodel.HomeViewModel
 
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
-    FragmentHomeBinding::inflate,
-    HomeViewModel::class.java
+class HomeFragment : BaseFragment<FragmentHomeBinding>(
+    FragmentHomeBinding::inflate
 ) {
+    private val viewModel: HomeViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.w("_TAG_X", viewModel.isUserLoggedIn().toString())

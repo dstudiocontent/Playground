@@ -1,4 +1,4 @@
-package com.extack.playground.model.remote
+package com.extack.playground.model.firestore
 
 data class Vehicle(
     val id: Int = 0,
