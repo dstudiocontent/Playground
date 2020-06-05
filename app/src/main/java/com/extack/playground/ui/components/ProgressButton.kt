@@ -8,39 +8,45 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.extack.playground.R
+import com.extack.playground.databinding.ProgressButtonBinding
 import com.google.android.material.button.MaterialButton
 
 
 @Suppress("UNUSED")
 class ProgressButton : ConstraintLayout {
 
+    private lateinit var binding: ProgressButtonBinding
     private lateinit var button: MaterialButton
     private lateinit var progressIndicator: ProgressBar
     private var buttonText = ""
 
-    constructor(context: Context?) : super(context) {
-        initLayout()
+    constructor(context: Context) : super(context) {
+        initLayout(context)
     }
 
-    constructor(context: Context?, attrs: AttributeSet? = null) : super(context, attrs) {
-        initLayout()
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
+        initLayout(context)
         val a =
-            context?.obtainStyledAttributes(attrs, R.styleable.ProgressButton)
-        buttonText = a?.getString(R.styleable.ProgressButton_button_text) ?: "Progress Button"
-        a?.recycle()
+            context.obtainStyledAttributes(attrs, R.styleable.ProgressButton)
+        buttonText = a.getString(R.styleable.ProgressButton_button_text) ?: "Progress Button"
+        a.recycle()
     }
 
-    private fun initLayout() {
-        val inflater = context
+    private fun initLayout(context: Context) {
+        binding =
+            ProgressButtonBinding.inflate(LayoutInflater.from(context), this, true)
+
+        /*val inflater = context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.progress_button, this)
+        inflater.inflate(R.layout.progress_button, this)*/
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        button = findViewById(R.id.progress_button)
-        progressIndicator = findViewById(R.id.progress_button_indicator)
+        button = binding.progressButton//findViewById(R.id.progress_button)
+        progressIndicator =
+            binding.progressButtonIndicator//findViewById(R.id.progress_button_indicator)
 
         button.text = buttonText
 

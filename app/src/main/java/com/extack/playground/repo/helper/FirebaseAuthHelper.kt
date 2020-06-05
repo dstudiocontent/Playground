@@ -1,12 +1,10 @@
 package com.extack.playground.repo.helper
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class FirebaseAuthHelper {
-    private val auth: FirebaseAuth = Firebase.auth
+class FirebaseAuthHelper @Inject constructor(private val auth: FirebaseAuth) {
 
     suspend fun registerUser(email: String, password: String): UserStatus {
         return try {

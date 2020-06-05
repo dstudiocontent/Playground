@@ -4,18 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.extack.playground.model.Resource
-import com.extack.playground.model.firestore.User
-import com.extack.playground.repo.firebase.UsersRepo
+import com.extack.playground.model.firestore.Rates
+import com.extack.playground.repo.firebase.RatesRepo
 import com.extack.playground.repo.helper.FirebaseAuthHelper
-import com.extack.playground.repo.helper.FirebaseHelper
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
-    private val userRepo = UsersRepo(FirebaseHelper())
-    private val authHelper =
-        FirebaseAuthHelper()
+class HomeViewModel @Inject constructor(
+    private val ratesRepo: RatesRepo,
+    private val authHelper: FirebaseAuthHelper
+) : ViewModel() {
 
-    fun getAllUsers(): LiveData<Resource<User>> = liveData {
-        emit(userRepo.getAllUsers())
+    fun getLatestRates(docId: String): LiveData<Resource<Rates>> = liveData {
+        emit(ratesRepo.getLatestRates(docId))
     }
 
     fun isUserLoggedIn(): Boolean {

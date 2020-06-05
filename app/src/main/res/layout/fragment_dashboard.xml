@@ -7,22 +7,13 @@
     tools:context=".ui.dashboard.DashboardFragment">
 
     <com.extack.playground.ui.components.ProgressButton
-        android:id="@+id/button_home"
+        android:id="@+id/fetch_latest_rates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:button_text="Fetch User Data"
+        app:button_text="Fetch Latest Rates"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_homeX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click test"
-        app:layout_constraintBottom_toTopOf="@id/button_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06" />
 </androidx.constraintlayout.widget.ConstraintLayout>

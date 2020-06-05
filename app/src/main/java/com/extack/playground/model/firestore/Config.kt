@@ -4,11 +4,10 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class User(
-    val id: Int = 0,
-    val name: String = ""
-) : FirestoreModel, Parcelable {
+data class Config(
+    val updatedDate: String = ""
+) : Parcelable, FirestoreModel {
     override fun getDocId(): String {
-        return "$id$name"
+        return "config"
     }
 }

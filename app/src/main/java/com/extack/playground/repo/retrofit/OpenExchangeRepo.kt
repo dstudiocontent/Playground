@@ -4,8 +4,9 @@ import com.extack.playground.constants.APP_ID
 import com.extack.playground.model.Resource
 import com.extack.playground.model.retrofit.LatestRates
 import com.extack.playground.repo.helper.RetrofitHelper
+import javax.inject.Inject
 
-class OpenExchangeRepo(
+class OpenExchangeRepo @Inject constructor(
     private val service: OpenExchangeService,
     private val helper: RetrofitHelper
 ) {

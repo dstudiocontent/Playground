@@ -3,8 +3,9 @@ package com.extack.playground.repo.helper
 import com.extack.playground.model.Resource
 import java.io.IOException
 import java.net.SocketTimeoutException
+import javax.inject.Inject
 
-class RetrofitHelper {
+class RetrofitHelper @Inject constructor() {
     inline fun <T> serviceCaller(serviceFunction: () -> T): Resource<T> {
         return try {
             Resource.SuccessSingle(serviceFunction.invoke())

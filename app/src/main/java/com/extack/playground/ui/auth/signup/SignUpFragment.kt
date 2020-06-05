@@ -1,20 +1,23 @@
-package com.extack.playground.ui.auth
+package com.extack.playground.ui.auth.signup
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.extack.playground.databinding.FragmentSignUpBinding
+import com.extack.playground.di.Injector
 import com.extack.playground.repo.helper.StatusCode
 import com.extack.playground.ui.main.BaseFragment
 import com.extack.playground.utils.hideKeyboardFrom
+import com.extack.playground.utils.savedStateViewModels
 import com.extack.playground.utils.showSnackbar
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(
     FragmentSignUpBinding::inflate
 ) {
-    private val viewModel: SignUpViewModel by viewModels()
+    private val viewModel by savedStateViewModels { handle ->
+        Injector.get().signUpVMFactory().create(handle)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

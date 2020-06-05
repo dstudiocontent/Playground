@@ -13,9 +13,6 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/home_to_second"
-            app:destination="@id/home_second_fragment" />
-        <action
             android:id="@+id/home_to_signIp"
             app:destination="@id/signUpFragment"
             app:popUpTo="@id/home"
@@ -27,13 +24,8 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/home_second_fragment"
-        android:name="com.extack.playground.ui.home.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second" />
-    <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.extack.playground.ui.auth.SignUpFragment"
+        android:name="com.extack.playground.ui.auth.signup.SignUpFragment"
         android:label="SignUpFragment">
         <action
             android:id="@+id/sign_up_to_home"
@@ -48,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.extack.playground.ui.auth.SignInFragment"
+        android:name="com.extack.playground.ui.auth.signin.SignInFragment"
         android:label="SignInFragment">
         <action
             android:id="@+id/sign_in_to_home"

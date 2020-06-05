@@ -1,12 +1,6 @@
 package com.extack.playground.repo.retrofit
 
-import com.extack.playground.constants.BASE_URL
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
-
+/*
 class RetrofitClient {
     companion object {
         private fun getClient(): OkHttpClient {
@@ -29,4 +23,4 @@ class RetrofitClient {
 
 
     }
-}
+}*/

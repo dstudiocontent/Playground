@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.extack.playground.di.Injector
+import com.extack.playground.utils.savedStateActivityViewModels
 
 abstract class BaseFragment<VB : ViewBinding>(
     inflater: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
@@ -18,11 +19,8 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var _binding: VB? = null
     val binding get() = _binding!!
 
-    lateinit var activityVM: ActivityVM
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activityVM = ViewModelProvider(requireActivity())[ActivityVM::class.java]
+    val activityViewModel by savedStateActivityViewModels { handle ->
+        Injector.get().mainActivityVMFactory().create(handle)
     }
 
     @Nullable

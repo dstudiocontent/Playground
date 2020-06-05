@@ -1,25 +1,35 @@
 package com.extack.playground.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.extack.playground.databinding.FragmentDashboardBinding
-import com.extack.playground.repo.helper.FirebaseAuthHelper
+import com.extack.playground.di.Injector
+import com.extack.playground.model.Resource
 import com.extack.playground.ui.main.BaseFragment
+import com.extack.playground.utils.fragmentViewModels
+import com.extack.playground.utils.hide
 
 class DashboardFragment :
     BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
-
-    private val authHelper = FirebaseAuthHelper()
-    private val viewModel: DashboardViewModel by viewModels {
-        DashboardVMFactory(
-            authHelper,
-            this
-        )
+    private val viewModel by fragmentViewModels {
+        Injector.get().dashboardyVMFactory().get()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.pr()
+        if (!viewModel.isUserSignedIn()) binding.fetchLatestRates.hide()
+        else {
+            binding.fetchLatestRates.setButtonOnClickListener(View.OnClickListener {
+                viewModel.getRates().observe(viewLifecycleOwner, Observer {
+                    binding.fetchLatestRates.progressCompleted()
+                    when (it) {
+                        is Resource.SuccessSingle -> Log.w("_TAG", it.data.base)
+                        is Resource.Failure -> Log.w("_TAG", it.message)
+                    }
+                })
+            })
+        }
     }
 }

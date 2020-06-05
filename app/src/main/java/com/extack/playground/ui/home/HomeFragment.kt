@@ -5,48 +5,55 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.extack.playground.databinding.FragmentHomeBinding
 import com.extack.playground.databinding.RvItemUserCardBinding
+import com.extack.playground.di.Injector
 import com.extack.playground.model.Resource
-import com.extack.playground.model.firestore.User
+import com.extack.playground.model.firestore.Rates
 import com.extack.playground.ui.main.BaseFragment
+import com.extack.playground.utils.fragmentViewModels
 import com.extack.playground.utils.showSnackbar
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
     FragmentHomeBinding::inflate
 ) {
-    private val viewModel: HomeViewModel by viewModels()
+
+    private val viewModel by fragmentViewModels {
+        Injector.get().homeVMFactory().get()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         Log.w("_TAG_X", viewModel.isUserLoggedIn().toString())
         if (!viewModel.isUserLoggedIn()) {
             findNavController().navigate(HomeFragmentDirections.homeToSignIn())
         } else {
-            viewModel.getAllUsers().observe(viewLifecycleOwner, Observer { userResource ->
-                when (userResource) {
-                    is Resource.SuccessList ->
-                        binding.rvUsers.apply {
-                            adapter = UserRVAdapter(userResource.data)
-                            layoutManager = LinearLayoutManager(
-                                requireActivity(),
-                                LinearLayoutManager.VERTICAL,
-                                false
-                            )
+            activityViewModel.getSavedConfig().observe(viewLifecycleOwner, Observer {
+                viewModel.getLatestRates(it.updatedDate)
+                    .observe(viewLifecycleOwner, Observer { userResource ->
+                        when (userResource) {
+                            is Resource.SuccessSingle ->
+                                binding.rvUsers.apply {
+                                    adapter = UserRVAdapter(listOf(userResource.data))
+                                    layoutManager = LinearLayoutManager(
+                                        requireActivity(),
+                                        LinearLayoutManager.VERTICAL,
+                                        false
+                                    )
+                                }
+                            is Resource.Failure -> showSnackbar(binding.root, userResource.message)
                         }
-                    is Resource.Failure -> showSnackbar(binding.root, userResource.message)
-                }
+                    })
             })
         }
-
     }
 
-    inner class UserRVAdapter(private val users: List<User>) :
+    inner class UserRVAdapter(private val users: List<Rates>) :
         RecyclerView.Adapter<UserRVAdapter.VH>() {
 
         inner class VH(private val itemViewBinding: RvItemUserCardBinding) :
@@ -54,15 +61,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             init {
                 Log.w("_TAG", "ViewHolder Init")
                 itemView.setOnClickListener {
-                    activityVM.setCurrentUser(users[adapterPosition])
-                    findNavController().navigate(HomeFragmentDirections.homeToSecond())
+
                 }
             }
 
-            fun bind(user: User) {
-                itemViewBinding.ucId.text = user.id.toString()
-                itemViewBinding.ucName.text = user.name
-
+            fun bind(rates: Rates) {
+                itemViewBinding.ucId.text = rates.base
             }
         }
 
